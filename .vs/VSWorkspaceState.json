@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\scripts",
+    "\\scripts\\baekjoon"
   ],
-  "SelectedNode": "\\scripts",
+  "SelectedNode": "\\scripts\\storage.js",
   "PreviewInSolutionExplorer": false
 }

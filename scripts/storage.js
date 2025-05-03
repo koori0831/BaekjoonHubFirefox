@@ -91,11 +91,17 @@ async function removeObjectFromLocalStorage(keys) {
 async function getObjectFromSyncStorage(key) {
     return new Promise((resolve, reject) => {
         try {
+            console.log('Getting from sync storage:', key); // 디버깅 로그 추가
             browserAPI.storage.sync.get(key, function (value) {
+                console.log('Value from sync storage:', value); // 디버깅 로그 추가
                 resolve(value[key]);
             });
         } catch (ex) {
-            reject(ex);
+            console.error('Error getting from sync storage:', ex); // 오류 로깅
+            // 실패 시 local storage에서 시도
+            browserAPI.storage.local.get(key, function (value) {
+                resolve(value[key]);
+            });
         }
     });
 }

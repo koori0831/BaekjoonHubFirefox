@@ -7,6 +7,8 @@ async function SolvedApiCall(problemId) {
         .then((query) => query.json());
 }
 
+console.log('Background script initialized at', new Date().toISOString());
+
 function handleMessage(request, sender, sendResponse) {
     if (request && request.closeWebPage === true && request.isSuccess === true) {
         /* Set username */
@@ -39,8 +41,8 @@ function handleMessage(request, sender, sendResponse) {
         browserAPI.tabs.create({ url: urlOnboarding, active: true }); // 'selected' 대신 'active' 사용 (최신 API)
     } else if (request && request.closeWebPage === true && request.isSuccess === false) {
         alert('Something went wrong while trying to authenticate your profile!');
-        browserAPI.tabs.getSelected(null, function (tab) {
-            browserAPI.tabs.remove(tab.id);
+        browserAPI.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            browserAPI.tabs.remove(tabs[0].id);
         });
     } else if (request && request.sender == "baekjoon" && request.task == "SolvedApiCall") {
         SolvedApiCall(request.problemId).then((res) => sendResponse(res));

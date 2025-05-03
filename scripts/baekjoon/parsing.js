@@ -41,9 +41,10 @@ async function findData(data) {
  * @returns {Object} { directory, fileName, message, readme, code }
  */
 async function makeDetailMessageAndReadme(data) {
-  const { problemId, submissionId, result, title, level, problem_tags,
-    problem_description, problem_input, problem_output, submissionTime,
-    code, language, memory, runtime } = data;
+    // level이 undefined인지 확인하고 기본값 제공
+    const { problemId, submissionId, result, title, level = '미정', problem_tags = [],
+        problem_description, problem_input, problem_output, submissionTime,
+        code, language, memory, runtime } = data;
   const score = parseNumberFromString(result);
   const directory = await getDirNameByOrgOption(
     `백준/${level.replace(/ .*/, '')}/${problemId}. ${convertSingleCharToDoubleChar(title)}`,
@@ -183,17 +184,33 @@ function findFromResultTable() {
     - 백준 문제 카테고리: category
 */
 function parseProblemDescription(doc = document) {
-  convertImageTagAbsoluteURL(doc.getElementById('problem_description')); //이미지에 상대 경로가 있을 수 있으므로 이미지 경로를 절대 경로로 전환 합니다.
-  const problemId = doc.getElementsByTagName('title')[0].textContent.split(':')[0].replace(/[^0-9]/, '');
-  const problem_description = unescapeHtml(doc.getElementById('problem_description').innerHTML.trim());
-  const problem_input = doc.getElementById('problem_input')?.innerHTML.trim?.().unescapeHtml?.() || 'Empty'; // eslint-disable-line
-  const problem_output = doc.getElementById('problem_output')?.innerHTML.trim?.().unescapeHtml?.() || 'Empty'; // eslint-disable-line
-  if (problemId && problem_description) {
-    log(`문제번호 ${problemId}의 내용을 저장합니다.`);
-    updateProblemsFromStats({ problemId, problem_description, problem_input, problem_output});
-    return { problemId, problem_description, problem_input, problem_output};
-  }
-  return {};
+    console.log('parseProblemDescription called with doc:', doc ? 'document object' : 'null');
+
+    try {
+        convertImageTagAbsoluteURL(doc.getElementById('problem_description')); //이미지에 상대 경로가 있을 수 있으므로 이미지 경로를 절대 경로로 전환 합니다.
+
+        // title 요소가 존재하는지 확인 후 접근
+        const titleElement = doc.getElementsByTagName('title');
+        const problemId = titleElement && titleElement.length > 0 ?
+            titleElement[0].textContent.split(':')[0].replace(/[^0-9]/, '') : '';
+
+        // problem_description 요소가 존재하는지 확인
+        const problemDescriptionElement = doc.getElementById('problem_description');
+        const problem_description = problemDescriptionElement ?
+            unescapeHtml(problemDescriptionElement.innerHTML.trim()) : '';
+
+        const problem_input = doc.getElementById('problem_input')?.innerHTML.trim?.().unescapeHtml?.() || 'Empty'; // eslint-disable-line
+        const problem_output = doc.getElementById('problem_output')?.innerHTML.trim?.().unescapeHtml?.() || 'Empty'; // eslint-disable-line
+
+        if (problemId && problem_description) {
+            log(`문제번호 ${problemId}의 내용을 저장합니다.`);
+            updateProblemsFromStats({ problemId, problem_description, problem_input, problem_output });
+            return { problemId, problem_description, problem_input, problem_output };
+        }
+    } catch (error) {
+        console.error('Error in parseProblemDescription:', error);
+        return {};
+    }
 }
 
 async function fetchProblemDescriptionById(problemId) {
