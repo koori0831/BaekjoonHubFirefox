@@ -8,8 +8,7 @@
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="license"/></a>
-  <a href="https://chrome.google.com/webstore/detail/ccammcjdkpgjmcpijpahlehmapgmphmk"><img src="https://img.shields.io/chrome-web-store/v/ccammcjdkpgjmcpijpahlehmapgmphmk.svg" alt="chrome-webstore"/></a>
-  <a href="https://chrome.google.com/webstore/detail/ccammcjdkpgjmcpijpahlehmapgmphmk"><img src="https://img.shields.io/chrome-web-store/d/ccammcjdkpgjmcpijpahlehmapgmphmk.svg" alt="users"></a>
+  <!--<a href="https://addons.mozilla.org/ko/firefox/addon/%EB%B0%B1%EC%A4%80%ED%97%88%EB%B8%8C-baekjoonhub/"><img src="https://img.shields.io/chrome-web-store/v/ccammcjdkpgjmcpijpahlehmapgmphmk.svg" alt="ADD-ONS"/></a> -->
     
 </a>
 </p>
@@ -70,7 +69,7 @@
 
 ## 목차
 
-1. [크롬 마켓](#지금-크롬-마켓에서-확인하세요)
+1. [파이어폭스 부가기능](#지금-마켓에서-확인하세요)
 2. [백준허브란?](#백준허브란what-is-baekjoonhub)
 3. [설치 및 연동](#설치-및-연동how-to-set-it-up)
 4. [작동 원리](#작동원리how-it-works)
@@ -84,25 +83,25 @@
 
 <!--- 마켓  --->
 
-## 지금 크롬 마켓에서 확인하세요!
+## 지금 마켓에서 확인하세요!
 
 <a href="https://chrome.google.com/webstore/detail/ccammcjdkpgjmcpijpahlehmapgmphmk">
   <img src="assets/extension/bookmark1.png"/>
 </a>
 
-<a href="https://chrome.google.com/webstore/detail/ebcggjojbiojfmiaammkfbdgmlpfflig">
-  <img src="assets/extension/bookmark2.png"/>
+<a href="https://github.com/koori0831/BaekjoonHubFirefox/releases/">
+  <img src="assets/extension/bookmark3.png"/>
 </a>
+</br>
+파이어폭스 버전은 현재 마켓에서 승인 대기중입니다. 릴리즈에서 zip을 다운로드하여 사용해주세요.
 
 <!--- 소개 --->
 
 ## 백준허브란?(What is BaekjoonHub?)
 
 <p>
-  백준 허브는 LeetCode의 개인 풀이를 github에 자동 푸시해주는 <a href="https://github.com/QasimWani/LeetHub">LeetHub</a>에서 영감을 받아 만든 프로젝트입니다. <a href="https://www.acmicpc.net/">백준</a>, <a href="https://programmers.co.kr/">프로그래머스</a>, <a href="https://level.goorm.io/">goormlevel</a>를 통해 알고리즘 공부를 하시는 분들이 더욱 쉽게 코드를 저장하고 관리할 수 있게 하도록 만들었으며, 오픈소스 프로젝트로 여러분의 조언과 참여를 환영합니다.<br/>
-</p>
-<p>
-  BaekjoonHub is a chrome extension that automatically pushes your code to GitHub when you pass all tests on a <a href="https://www.acmicpc.net/">Baekjoon Online Judge</a> problem. This project was based off of <a href="https://github.com/QasimWani/LeetHub">LeetHub</a>, a similar extension for Leetcode.
+  백준허브 파이어폭스는 <a href="https://chrome.google.com/webstore/detail/ccammcjdkpgjmcpijpahlehmapgmphmk">기존의 크롬 확장</a>을 포크하여 파이어폭스용으로 포팅한 프로젝트입니다. 보다 자세한 설명은 원본 프로젝트의 <a href="https://github.com/BaekjoonHub/BaekjoonHub">깃허브</a>에서 확인하실 수 있습니다.
+  <br/>
 </p>
 👉 <a href="https://github.com/flaxinger/BOJAutoPush"> 예시 Repository</a> 보러 가기<br/>
 
@@ -114,13 +113,14 @@
 ## 설치 및 연동(How to set it up)
 
 <ol>
-  <li>크롬에서 설치 후 우측 상단의 popup 버튼을 클릭합니다.</li>
+  <li>파이어폭스에서 설치 후 우측 상단의 익스텐션 버튼을 클릭합니다.</li>
   <li>"Authorize with GitHub" 버튼을 누르고 인증을 완료하면 Repository 연동 화면이 표시됩니다.</li>
   <li>Repository를 신규로 만들거나 기존에 존재하는 Repository에 연동 가능합니다. (신규 Repository 생성시 visibility 기본값은 private으로 되어있습니다)</li>
   <li>디렉토리 구조를 플랫폼별로 또는 언어별로 하는 옵션이 있습니다.</li>
   <li>Get Started 버튼을 누르면 링크가 완료됩니다.</li>
   <li>이후 제출화면이 감지되면 자동으로 업로드됩니다.</li>
 </ol>
+++ 현재 마켓의 승인을 대기하는 중이기 때문에 about:config에서 xpinstall.signatures.required 옵션을 false로 하셔야 다운로드할 수 있습니다.
 <br />
 <br />
 
@@ -256,14 +256,9 @@
 <table>
   <tr>
     <td align="center">
-      <a href="https://github.com/BaekjoonHub/BaekjoonHub/issues" title="버그신고">
+      <a href="https://github.com/koori0831/BaekjoonHubFirefox/issues" title="버그신고">
           <img src="./assets/readme_icons/bug.png" width="100" height="100">
       </a><br/><sub><b>버그 신고</b></sub>
-    </td>
-    <td align="center">
-      <a href="https://open.kakao.com/o/gOWn2ySd" title="카카오톡 협업방">
-        <img src="./assets/readme_icons/kakao.png" width="100" height="100">
-      </a><br/><sub><b>카카오톡 협업방</b></sub>
     </td>
   </tr>
 </table>
