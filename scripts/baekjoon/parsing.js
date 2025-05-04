@@ -228,7 +228,12 @@ async function fetchSubmitCodeById(submissionId) {
 }
 
 async function fetchSolvedACById(problemId) {
-  return chrome.runtime.sendMessage({sender: "baekjoon", task : "SolvedApiCall", problemId : problemId});
+    try {
+        return await chrome.runtime.sendMessage({ sender: "baekjoon", task: "SolvedApiCall", problemId });
+    } catch (error) {
+        console.error("fetchSolvedACById 호출 중 오류 발생:", error);
+        return null; // 기본값 반환
+    }
 }
 
 async function getProblemDescriptionById(problemId) {

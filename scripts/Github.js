@@ -53,6 +53,23 @@ class GitHub {
  * @param {string} token - the github token
  * @return {Promise} - the promise for the branch sha
  */
+async function getUserRepositories(token) {
+    return fetch('https://api.github.com/user/repos?visibility=all&sort=updated&per_page=100', {
+        method: 'GET',
+        headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' },
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            return data.map(repo => {
+                return {
+                    name: repo.name,
+                    full_name: repo.full_name,
+                    private: repo.private
+                };
+            });
+        });
+}
+
 async function getDefaultBranchOnRepo(hook, token) {
     return fetch(`https://api.github.com/repos/${hook}`, {
         method: 'GET',

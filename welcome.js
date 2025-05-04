@@ -3,8 +3,51 @@ const option = () => {
 };
 
 const repositoryName = () => {
+    // 링크 옵션일 경우 드롭다운에서 값을 가져옴
+    if (option() === 'link') {
+        return $('#repo-dropdown').val();
+    }
+    // 새 리포지토리 생성 옵션일 경우 텍스트 입력에서 값을 가져옴
     return $('#name').val().trim();
 };
+
+// 페이지 로드 시 실행될 코드
+$(document).ready(function () {
+    // 초기 상태 설정: 입력 필드 비활성화
+    $('#name').prop('disabled', true);
+
+    // 기존 repo-input-container가 이미 표시되어 있으므로 스타일만 조정
+    $('#repo-input-container').addClass('disabled');
+});
+
+// 타입 선택 이벤트 핸들러 수정
+$('#type').on('change', function () {
+    const valueSelected = this.value;
+    if (valueSelected) {
+        $('#hook_button').attr('disabled', false);
+
+        // 선택에 따라 입력 필드와 드롭다운 전환
+        if (valueSelected === 'link') {
+            // 링크 옵션 선택 시 드롭다운 표시, 입력 필드 숨김
+            $('#repo-input-container').hide();
+            $('#name').prop('disabled', true);
+            $('#repo-dropdown-container').show();
+            // 리포지토리 목록 로드
+            loadRepositories();
+        } else if (valueSelected === 'new') {
+            // 새 리포지토리 생성 옵션 선택 시 입력 필드 표시, 드롭다운 숨김
+            $('#repo-dropdown-container').hide();
+            $('#repo-input-container').show().removeClass('disabled');
+            $('#name').prop('disabled', false);
+        }
+    } else {
+        // 옵션이 선택되지 않은 경우 (Pick an Option)
+        $('#hook_button').attr('disabled', true);
+        $('#name').prop('disabled', true);
+        $('#repo-input-container').addClass('disabled');
+        $('#repo-dropdown-container').hide();
+    }
+});
 
 /* Status codes for creating of repo */
 
@@ -205,11 +248,67 @@ const unlinkRepo = () => {
     document.getElementById('commit_mode').style.display = 'none';
 };
 
+// 리포지토리 드롭다운 목록을 로드하는 함수
+const loadRepositories = () => {
+    $('#repo-dropdown').empty().append('<option value="">Loading repositories...</option>');
+
+    browserAPI.storage.local.get(['BaekjoonHub_token', 'BaekjoonHub_username'], (data) => {
+        const token = data.BaekjoonHub_token;
+        if (!token) {
+            $('#repo-dropdown').empty().append('<option value="">Token not found</option>');
+            return;
+        }
+
+        // GitHub API를 사용하여 사용자 리포지토리 가져오기
+        fetch('https://api.github.com/user/repos?visibility=all&sort=updated&per_page=100', {
+            method: 'GET',
+            headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' },
+        })
+            .then(res => res.json())
+            .then(repos => {
+                $('#repo-dropdown').empty().append('<option value="">Select Repository</option>');
+
+                repos.forEach(repo => {
+                    $('#repo-dropdown').append(`<option value="${repo.name}">${repo.full_name}</option>`);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching repositories:', error);
+                $('#repo-dropdown').empty().append('<option value="">Failed to load repositories</option>');
+            });
+    });
+};
+
 /* Check for value of select tag, Get Started disabled by default */
 
 $('#type').on('change', function () {
     const valueSelected = this.value;
     if (valueSelected) {
+        $('#hook_button').attr('disabled', false);
+
+        // 선택에 따라 입력 필드와 드롭다운 전환
+        if (valueSelected === 'link') {
+            // 링크 옵션 선택 시 드롭다운 표시
+            $('#repo-input-container').hide();
+            $('#repo-dropdown-container').show();
+            // 리포지토리 목록 로드
+            loadRepositories();
+        } else {
+            // 새 리포지토리 생성 옵션 선택 시 입력 필드 표시
+            $('#repo-dropdown-container').hide();
+            $('#repo-input-container').show();
+        }
+    } else {
+        $('#hook_button').attr('disabled', true);
+        // 옵션을 선택하지 않은 경우 모두 숨김
+        $('#repo-dropdown-container').hide();
+        $('#repo-input-container').hide();
+    }
+});
+
+// 드롭다운 선택 시 버튼 활성화
+$('#repo-dropdown').on('change', function () {
+    if ($(this).val()) {
         $('#hook_button').attr('disabled', false);
     } else {
         $('#hook_button').attr('disabled', true);
@@ -223,7 +322,9 @@ $('#hook_button').on('click', () => {
         $('#error').show();
     } else if (!repositoryName()) {
         $('#error').text('No repository name added - Enter the name of your repository!');
-        $('#name').focus();
+        if (option() === 'new') {
+            $('#name').focus();
+        }
         $('#error').show();
     } else {
         $('#error').hide();

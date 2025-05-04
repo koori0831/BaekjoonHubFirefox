@@ -3,8 +3,16 @@
  * @param {int} problemId
  */
 async function SolvedApiCall(problemId) {
-    return fetch(`https://solved.ac/api/v3/problem/show?problemId=${problemId}`, { method: 'GET' })
-        .then((query) => query.json());
+    try {
+        const response = await fetch(`https://solved.ac/api/v3/problem/show?problemId=${problemId}`, { method: 'GET' });
+        if (!response.ok) {
+            throw new Error(`API 호출 실패: ${response.status} ${response.statusText}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error(`SolvedApiCall 에러: ${error.message}`);
+        return null; // 기본값 반환
+    }
 }
 
 console.log('Background script initialized at', new Date().toISOString());
@@ -26,29 +34,24 @@ function handleMessage(request, sender, sendResponse) {
             console.log('Closed pipe.');
         });
 
-        // deprecated API - 주석 처리됨
-        // browserAPI.tabs.getSelected(null, function (tab) {
-        //   browserAPI.tabs.remove(tab.id);
-        // });
-
-        /* Go to onboarding for UX */
         // 크로스 브라우저 호환 URL 생성
         const extensionId = browserAPI.runtime.id;
-        const urlOnboarding = typeof browser !== 'undefined' && browser.runtime ?
-            browser.runtime.getURL('welcome.html') :
-            `chrome-extension://${extensionId}/welcome.html`;
+        const urlOnboarding = browserAPI.runtime.getURL('welcome.html');
 
-        browserAPI.tabs.create({ url: urlOnboarding, active: true }); // 'selected' 대신 'active' 사용 (최신 API)
+        browserAPI.tabs.create({ url: urlOnboarding, active: true });
     } else if (request && request.closeWebPage === true && request.isSuccess === false) {
         alert('Something went wrong while trying to authenticate your profile!');
         browserAPI.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             browserAPI.tabs.remove(tabs[0].id);
         });
-    } else if (request && request.sender == "baekjoon" && request.task == "SolvedApiCall") {
+    } else if (request && request.sender === "baekjoon" && request.task === "SolvedApiCall") {
         SolvedApiCall(request.problemId).then((res) => sendResponse(res));
         return true; // Firefox에서 비동기 응답을 위해 true 반환
     }
     return true;
 }
 
-browserAPI.runtime.onMessage.addListener(handleMessage);
+// 메시지 리스너에서 handleMessage를 호출
+browserAPI.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    return handleMessage(request, sender, sendResponse);
+});

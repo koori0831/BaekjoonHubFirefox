@@ -3,7 +3,7 @@
   "name": "백준허브(BaekjoonHub)",
   "description": "Automatically integrate your BOJ submissions to GitHub",
   "homepage_url": "https://github.com/BaekjoonHub/BaekjoonHub",
-  "version": "1.0",
+  "version": "1.0.1",
   "author": "flaxinger",
   "browser_specific_settings": {
     "gecko": {
@@ -16,9 +16,9 @@
     "default_popup": "popup.html"
   },
   "icons": {
-    "16": "assets/thumbnail.png",
-    "48": "assets/thumbnail.png",
-    "128": "assets/thumbnail.png"
+    "16": "assets/thumbnail-16.png",
+    "48": "assets/thumbnail-48.png",
+    "128": "assets/thumbnail-128.png"
   },
   "background": {
     "scripts": [ "scripts/browserAPI.js", "scripts/background.js" ]
@@ -35,14 +35,19 @@
   "permissions": [
     "unlimitedStorage",
     "storage",
+    "tabs",
+    "runtime",
+    "background",
     "declarativeNetRequest",
-    "declarativeNetRequestWithHostAccess",
-    "https://www.acmicpc.net/",
-    "https://school.programmers.co.kr/",
-    "https://github.com/",
-    "https://swexpertacademy.com/",
+    "declarativeNetRequestWithHostAccess"
+  ],
+  "host_permissions": [
+    "https://www.acmicpc.net/*",
+    "https://school.programmers.co.kr/*",
+    "https://github.com/*",
+    "https://swexpertacademy.com/*",
     "https://solved.ac/api/v3/*",
-    "https://level.goorm.io/"
+    "https://level.goorm.io/*"
   ],
   "web_accessible_resources": [
     {

@@ -50,11 +50,17 @@
     </div>
 
     <div class="six wide column">
-      <div class="ui form">
-        <div class="field">
-          <input autocomplete="off" id="name" placeholder="Repository Name" type="text" />
+        <div class="ui form">
+            <div class="field" id="repo-input-container">
+                <input autocomplete="off" id="name" placeholder="Repository Name" type="text" />
+            </div>
+            <div class="field" id="repo-dropdown-container" style="display: none;">
+                <select id="repo-dropdown" class="ui fluid dropdown">
+                    <option value="">Select Repository</option>
+                    <!-- 리포지토리 목록이 여기에 동적으로 추가됩니다 -->
+                </select>
+            </div>
         </div>
-      </div>
     </div>
 
     <div class="sixteen wide right aligned column">
