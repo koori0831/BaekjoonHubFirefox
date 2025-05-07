@@ -89,11 +89,10 @@
   <img src="assets/extension/bookmark1.png"/>
 </a>
 
-<a href="https://github.com/koori0831/BaekjoonHubFirefox/releases/">
+<a href="https://addons.mozilla.org/ko/firefox/addon/백준허브-baekjoonhub/">
   <img src="assets/extension/bookmark3.png"/>
 </a>
 </br>
-파이어폭스 버전은 현재 마켓에서 승인 대기중입니다. 릴리즈에서 zip을 다운로드하여 사용해주세요.
 
 <!--- 소개 --->
 
@@ -120,7 +119,6 @@
   <li>Get Started 버튼을 누르면 링크가 완료됩니다.</li>
   <li>이후 제출화면이 감지되면 자동으로 업로드됩니다.</li>
 </ol>
-++ 현재 마켓의 승인을 대기하는 중이기 때문에 about:config에서 xpinstall.signatures.required 옵션을 false로 하셔야 다운로드할 수 있습니다.
 <br />
 <br />
 
