@@ -1,0 +1,18 @@
+/* 공통 스타일을 import */
+@import url('../common.css');
+
+/* 백준 플랫폼 특화 스타일 */
+.BaekjoonHub_progress {
+  width: 0.8em !important;
+  height: 0.8em !important;
+}
+
+#BaekjoonHub_progress_elem.markuploadfailed {
+  height: 13px !important;
+  width: 5px !important;
+}
+
+#BaekjoonHub_progress_elem.markuploaded {
+  height: 13px !important;
+  width: 5px !important;
+}

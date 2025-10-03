@@ -1,0 +1,7 @@
+/* 공통 스타일을 import */
+@import url('../common.css');
+
+/* SWEA 플랫폼 특화 스타일 */
+#BaekjoonHub_progress_anchor_element {
+  margin-right: 20px !important;
+}
