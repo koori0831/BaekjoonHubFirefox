@@ -25,7 +25,19 @@ module.exports = {
   plugins: [
     new CopyPlugin({
       patterns: [
-        { from: "./src/manifest.json", to: "./" },
+        {
+          from: "./src/manifest.json",
+          to: "./",
+          transform(content) {
+            const manifest = JSON.parse(content.toString());
+            // Firefox (MV3) uses background.scripts instead of background.service_worker.
+            if (manifest.background && manifest.background.service_worker) {
+              manifest.background.scripts = [manifest.background.service_worker];
+              delete manifest.background.service_worker;
+            }
+            return JSON.stringify(manifest, null, 2);
+          },
+        },
         { from: "./src/rules.json", to: "./" },
         { from: "./src/assets", to: "./assets" },
         { from: "./src/css", to: "./css" },

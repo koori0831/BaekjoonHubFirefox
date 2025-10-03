@@ -56,7 +56,8 @@
         "popup.html",
         "popup.js",
         "settings.html",
-        "settings.js"
+        "settings.js",
+        "assets/thumbnail.png"
       ]
     }
   ],

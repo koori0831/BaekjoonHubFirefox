@@ -16,7 +16,9 @@
     "128": "assets/thumbnail.png"
   },
   "background": {
-    "service_worker": "background.js"
+    "scripts": [
+      "background.js"
+    ]
   },
   "browser_specific_settings": {
     "gecko": {
@@ -56,7 +58,8 @@
         "popup.html",
         "popup.js",
         "settings.html",
-        "settings.js"
+        "settings.js",
+        "assets/thumbnail.png"
       ]
     }
   ],
