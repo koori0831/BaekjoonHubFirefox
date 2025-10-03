@@ -11,7 +11,7 @@ const SCOPES = ["repo"];
  * Begin
  */
 export default function beginOAuth2() {
-  let url = `${AUTHORIZATION_URL}?client_id=${CLIENT_ID}&redirect_uri${REDIRECT_URL}&scope=`;
+  let url = `${AUTHORIZATION_URL}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URL}&scope=`;
 
   for (let i = 0; i < SCOPES.length; i += 1) {
     url += SCOPES[i];
